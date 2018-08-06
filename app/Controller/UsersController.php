@@ -32,6 +32,7 @@ class UsersController extends AppController {
         $this->Acl->deny($group, 'controllers');
         $this->Acl->allow($group, 'controllers/Posts');
         $this->Acl->allow($group, 'controllers/Widgets');
+        $this->Acl->allow($group, 'controllers/users/logout');
 
         // allow users to only add and edit on posts and widgets
         $group->id = 3;
