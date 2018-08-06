@@ -17,10 +17,36 @@ class UsersController extends AppController {
 
     public function beforeFilter() {
         parent::beforeFilter();
-        // For CakePHP 2.0
-        $this->Auth->allow('*');
-        // For CakePHP 2.1 and up
-        $this->Auth->allow();
+        //$this->Auth->allow('initDB'); // After Run in http://localhost/cakePhpAcl/users/initdb in Browser, witch off this Command.
+    }
+
+    public function initDB() {
+        $group = $this->User->Group;
+
+        // Allow admins to everything
+        $group->id = 1;
+        $this->Acl->allow($group, 'controllers');
+
+        // allow managers to posts and widgets
+        $group->id = 2;
+        $this->Acl->deny($group, 'controllers');
+        $this->Acl->allow($group, 'controllers/Posts');
+        $this->Acl->allow($group, 'controllers/Widgets');
+
+        // allow users to only add and edit on posts and widgets
+        $group->id = 3;
+        $this->Acl->deny($group, 'controllers');
+        $this->Acl->allow($group, 'controllers/Posts/add');
+        $this->Acl->allow($group, 'controllers/Posts/edit');
+        $this->Acl->allow($group, 'controllers/Widgets/add');
+        $this->Acl->allow($group, 'controllers/Widgets/edit');
+
+        // allow basic users to log out
+        $this->Acl->allow($group, 'controllers/users/logout');
+
+        // we add an exit to avoid an ugly "missing views" error message
+        echo "all done";
+        exit;
     }
 
 /**

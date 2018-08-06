@@ -57,5 +57,6 @@ class AppController extends Controller {
             'controller' => 'posts',
             'action' => 'add'
         );
+        $this->Auth->allow('display');
     }
 }
