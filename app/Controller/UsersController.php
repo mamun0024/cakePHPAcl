@@ -15,6 +15,14 @@ class UsersController extends AppController {
  */
 	public $components = array('Paginator');
 
+    public function beforeFilter() {
+        parent::beforeFilter();
+        // For CakePHP 2.0
+        $this->Auth->allow('*');
+        // For CakePHP 2.1 and up
+        $this->Auth->allow();
+    }
+
 /**
  * index method
  *
@@ -24,6 +32,18 @@ class UsersController extends AppController {
 		$this->User->recursive = 0;
 		$this->set('users', $this->Paginator->paginate());
 	}
+
+    public function login() {
+        if ($this->request->is('post')) {
+            if ($this->Auth->login()) {
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+            $this->Session->setFlash(__('Your username or password was incorrect.'));
+        }
+    }
+    public function logout() {
+        //Leave empty for now.
+    }
 
 /**
  * view method

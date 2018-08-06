@@ -7,11 +7,11 @@ App::uses('AppModel', 'Model');
  */
 class Group extends AppModel {
 
-/**
- * Validation rules
- *
- * @var array
- */
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
 	public $validate = array(
 		'name' => array(
 			'notBlank' => array(
@@ -27,11 +27,11 @@ class Group extends AppModel {
 
 	// The Associations below have been created with all possible keys, those that are not needed can be removed
 
-/**
- * hasMany associations
- *
- * @var array
- */
+    /**
+     * hasMany associations
+     *
+     * @var array
+     */
 	public $hasMany = array(
 		'User' => array(
 			'className' => 'User',
@@ -48,4 +48,9 @@ class Group extends AppModel {
 		)
 	);
 
+    public $actsAs = array('Acl' => array('type' => 'requester'));
+
+    public function parentNode() {
+        return null;
+    }
 }
