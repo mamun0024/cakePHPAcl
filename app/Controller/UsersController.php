@@ -60,6 +60,11 @@ class UsersController extends AppController {
 	}
 
     public function login() {
+        if ($this->Session->read('Auth.User')) {
+            $this->Session->setFlash('You are logged in!');
+            return $this->redirect('/');
+        }
+
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
                 return $this->redirect($this->Auth->redirectUrl());
@@ -68,7 +73,8 @@ class UsersController extends AppController {
         }
     }
     public function logout() {
-        //Leave empty for now.
+        $this->Session->setFlash('Good-Bye');
+        $this->redirect($this->Auth->logout());
     }
 
 /**
